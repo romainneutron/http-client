@@ -156,7 +156,7 @@ trait TransportResponseTrait
             self::schedule($response, $runningResponses);
         }
 
-        $lastActivity = microtime(true);
+        $lastActivity = $veryBeginning = microtime(true);
         $elapsedTimeout = 0;
 
         while (true) {
@@ -180,7 +180,7 @@ trait TransportResponseTrait
                         unset($responses[$j]);
                         continue;
                     } elseif ($elapsedTimeout >= $timeoutMax) {
-                        $multi->handlesActivity[$j] = [new ErrorChunk($response->offset, sprintf('Idle timeout reached for "%s".', $response->getInfo('url')))];
+                        $multi->handlesActivity[$j] = [new ErrorChunk($response->offset, sprintf('Idle timeout reached for "%s". Received timeout "%f", elapsed timeout "%s", timeout max "%s", very beginning %s.', $response->getInfo('url'), $timeout, $elapsedTimeout, $timeoutMax, $veryBeginning))];
                     } else {
                         continue;
                     }
