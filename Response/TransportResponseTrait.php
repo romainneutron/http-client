@@ -184,7 +184,7 @@ trait TransportResponseTrait
                         unset($responses[$j]);
                         continue;
                     } elseif ($elapsedTimeout >= $timeoutMax) {
-                        $multi->handlesActivity[$j] = [new ErrorChunk($response->offset, sprintf('Idle timeout reached for "%s". Received timeout "%f", elapsed timeout "%s", timeout max "%s", very beginning %s.', $response->getInfo('url'), $timeout, $elapsedTimeout, $timeoutMax, $veryBeginning))];
+                        $multi->handlesActivity[$j] = [new ErrorChunk($response->offset, sprintf('Idle timeout reached for "%s". Received timeout "%s", elapsed timeout "%s", timeout max "%s", response started at "%s", very beginning "%s", diff "%s".', $response->getInfo('url'), $timeout, $elapsedTimeout, $timeoutMax, $response->getInfo('start_time'), $veryBeginning, microtime(true) - $response->getInfo('start_time')))];
                     } else {
                         continue;
                     }
