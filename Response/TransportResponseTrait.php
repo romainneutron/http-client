@@ -174,6 +174,10 @@ trait TransportResponseTrait
                     $timeoutMin = min($timeoutMin, $response->timeout, 1);
                     $chunk = false;
 
+                    if ($response->logger) {
+                        $response->logger->debug(sprintf('Processing response, timeout min %s, timeout max %s, elapsed %s, received %s, response timeout %s, stream beginning %s, response start time %s', $timeoutMin, $timeoutMax, $elapsedTimeout, $timeout, $response->timeout, $veryBeginning, $response->getInfo('start_time')));
+                    }
+
                     if (isset($multi->handlesActivity[$j])) {
                         // no-op
                     } elseif (!isset($multi->openHandles[$j])) {

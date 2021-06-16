@@ -197,6 +197,10 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
                 $multi->dnsCache->removals = $multi->dnsCache->hostnames = [];
             }
         });
+
+        if ($this->logger) {
+            $this->logger->debug('finished to construct curl response', $this->getInfo());
+        }
     }
 
     /**
